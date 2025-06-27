@@ -1,6 +1,5 @@
 package com.project.tennis.global.response;
 
-import com.project.tennis.global.exception.BusinessException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum RsCode {
 
+    // Common
     FORBIDDEN(RsConstant.FORBIDDEN, "접근 권한이 없습니다."),
     SUCCESS(RsConstant.SUCCESS, "요청이 성공했습니다."),
     CREATED(RsConstant.CREATED, "새로운 리소스를 생성했습니다."),
@@ -16,7 +16,12 @@ public enum RsCode {
     INTERNAL_SERVER(RsConstant.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
     UNAUTHENTICATED(RsConstant.UNAUTHORIZED, "인증이 실패했습니다."),
     UNAUTHORIZED(RsConstant.FORBIDDEN, "접근 권한이 없습니다."),
-    TOO_MANY_REQUESTS(RsConstant.TOO_MANY_REQUESTS, "너무 많은 요청입니다.");
+    TOO_MANY_REQUESTS(RsConstant.TOO_MANY_REQUESTS, "너무 많은 요청입니다."),
+
+    // Member
+    DUPLICATE_USERNAME(RsConstant.BAD_REQUEST, "이미 사용 중인 아이디입니다."),
+    DUPLICATE_EMAIL(RsConstant.BAD_REQUEST, "이미 사용 중인 이메일입니다."),
+    DUPLICATE_NICKNAME(RsConstant.BAD_REQUEST, "이미 사용 중인 닉네임입니다.");
 
     private final Integer code;
     private final String message;
