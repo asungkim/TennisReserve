@@ -32,10 +32,10 @@ public class MemberService {
         Member member = request.toEntity(passwordEncoder, defaultProfile);
 
         // 3. 멤버 db에 저장
-        memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
         // 4. 응답값 리턴
-        return MemberCreateResponse.toEntity(member);
+        return MemberCreateResponse.toEntity(savedMember);
     }
 
     private void validateDuplicateMember(MemberCreateRequest request) {
