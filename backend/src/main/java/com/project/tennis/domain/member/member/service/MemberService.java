@@ -3,7 +3,7 @@ package com.project.tennis.domain.member.member.service;
 import com.project.tennis.domain.auth.service.TokenService;
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
-import com.project.tennis.domain.member.member.dto.response.LoginResponse;
+import com.project.tennis.domain.member.member.dto.response.TokenResponse;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;
@@ -57,7 +57,7 @@ public class MemberService {
     }
 
 
-    public LoginResponse loginMember(LoginRequest request) {
+    public TokenResponse loginMember(LoginRequest request) {
         String identifier = request.identifier(); // 아이디 또는 이메일
         String rawPassword = request.password();
 
@@ -77,7 +77,7 @@ public class MemberService {
         tokenService.generateRefreshToken(member);
         String accessToken = tokenService.generateAccessToken(member);
 
-        return new LoginResponse(accessToken);
+        return new TokenResponse(accessToken);
     }
 
     private boolean isEmail(String identifier) {
