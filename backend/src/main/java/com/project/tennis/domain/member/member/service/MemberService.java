@@ -1,6 +1,9 @@
 package com.project.tennis.domain.member.member.service;
 
+import com.project.tennis.domain.auth.service.TokenService;
+import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
+import com.project.tennis.domain.member.member.dto.response.LoginResponse;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;
@@ -19,6 +22,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Value("${custom.member.profile}")
     private String defaultProfile;
@@ -50,5 +54,33 @@ public class MemberService {
         if (memberRepository.existsByNickname(request.nickname())) {
             throw new BusinessException(RsCode.DUPLICATE_NICKNAME);
         }
+    }
+
+
+    public LoginResponse loginMember(LoginRequest request) {
+        String identifier = request.identifier(); // 아이디 또는 이메일
+        String rawPassword = request.password();
+
+        // 1. 이메일인지 아이디인지 확인 후 유저 조회
+        Member member = isEmail(identifier)
+                ? memberRepository.findByEmail(identifier)
+                .orElseThrow(() -> new BusinessException(RsCode.EMAIL_NOT_EXIST))
+                : memberRepository.findByUsername(identifier)
+                .orElseThrow(() -> new BusinessException(RsCode.USERNAME_NOT_EXIST));
+
+        // 2. 존재한다면 비밀번호 검증
+        if (!passwordEncoder.matches(rawPassword, member.getPassword())) {
+            throw new BusinessException(RsCode.PASSWORD_NOT_CORRECT);
+        }
+
+        // 3. 문제없으면 리프레시 및 액세스 토큰 발급
+        tokenService.generateRefreshToken(member);
+        String accessToken = tokenService.generateAccessToken(member);
+
+        return new LoginResponse(accessToken);
+    }
+
+    private boolean isEmail(String identifier) {
+        return identifier.contains("@"); // 또는 정규식 검증
     }
 }
