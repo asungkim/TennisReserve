@@ -1,0 +1,71 @@
+package com.project.tennis.global.util.jwt;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.Date;
+import java.util.Map;
+
+@Component
+@RequiredArgsConstructor
+public class JwtProvider {
+
+    private final JwtProperties jwtProperties;
+
+    // JWT 토큰 생성
+    public String createToken(String subject, Duration expiredAt, Map<String, Object> claims) {
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + expiredAt.toMillis());
+
+        Header jwtHeader = Jwts.header().type("JWT").build();
+        SecretKey key = getSecretKey();
+
+        JwtBuilder builder = Jwts.builder()
+                .header().add(jwtHeader).and()
+                .signWith(key, Jwts.SIG.HS256)
+                .subject(subject)
+                .issuer(jwtProperties.getIssuer())
+                .issuedAt(now)
+                .expiration(expireDate);
+
+        if (claims != null && !claims.isEmpty()) {
+            builder.claims(claims);
+        }
+
+        return builder.compact();
+    }
+
+    // 토큰 검증
+    public boolean isValidToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Claims 내용 가져오기
+    public Claims getClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+    }
+}

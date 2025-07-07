@@ -28,3 +28,7 @@ spring:
 custom:
   member:
     profile: "https://url.kr/estdgi"
+
+  jwt:
+    issuer: ${JWT_ISSUER}
+    secret_key: ${JWT_SECRET_KEY}
