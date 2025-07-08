@@ -68,4 +68,8 @@ public class JwtProvider {
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
     }
+
+    public String getMemberId(String refreshToken) {
+        return (String) getClaims(refreshToken).get("id");
+    }
 }

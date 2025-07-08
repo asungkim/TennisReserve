@@ -32,3 +32,5 @@ custom:
   jwt:
     issuer: ${JWT_ISSUER}
     secret_key: ${JWT_SECRET_KEY}
+    access_token:
+      expiration_minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES}
