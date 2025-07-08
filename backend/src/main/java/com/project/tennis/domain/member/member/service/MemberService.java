@@ -9,6 +9,7 @@ import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;
 import com.project.tennis.global.exception.BusinessException;
 import com.project.tennis.global.response.RsCode;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,22 +43,7 @@ public class MemberService {
         return MemberCreateResponse.toEntity(savedMember);
     }
 
-    private void validateDuplicateMember(MemberCreateRequest request) {
-        if (memberRepository.existsByUsername(request.username())) {
-            throw new BusinessException(RsCode.DUPLICATE_USERNAME);
-        }
-
-        if (memberRepository.existsByEmail(request.email())) {
-            throw new BusinessException(RsCode.DUPLICATE_EMAIL);
-        }
-
-        if (memberRepository.existsByNickname(request.nickname())) {
-            throw new BusinessException(RsCode.DUPLICATE_NICKNAME);
-        }
-    }
-
-
-    public TokenResponse loginMember(LoginRequest request) {
+    public TokenResponse loginMember(LoginRequest request, HttpServletResponse response) {
         String identifier = request.identifier(); // 아이디 또는 이메일
         String rawPassword = request.password();
 
@@ -73,11 +59,25 @@ public class MemberService {
             throw new BusinessException(RsCode.PASSWORD_NOT_CORRECT);
         }
 
-        // 3. 문제없으면 리프레시 및 액세스 토큰 발급
-        tokenService.generateRefreshToken(member);
+        // 3. 문제없으면 리프레시 및 액세스 토큰 발급 (쿠키도 발급)
+        tokenService.createRefreshToken(member, response);
         String accessToken = tokenService.generateAccessToken(member);
 
         return new TokenResponse(accessToken);
+    }
+
+    private void validateDuplicateMember(MemberCreateRequest request) {
+        if (memberRepository.existsByUsername(request.username())) {
+            throw new BusinessException(RsCode.DUPLICATE_USERNAME);
+        }
+
+        if (memberRepository.existsByEmail(request.email())) {
+            throw new BusinessException(RsCode.DUPLICATE_EMAIL);
+        }
+
+        if (memberRepository.existsByNickname(request.nickname())) {
+            throw new BusinessException(RsCode.DUPLICATE_NICKNAME);
+        }
     }
 
     private boolean isEmail(String identifier) {

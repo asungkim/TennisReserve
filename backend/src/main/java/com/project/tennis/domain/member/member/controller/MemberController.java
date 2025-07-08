@@ -6,6 +6,7 @@ import com.project.tennis.domain.member.member.dto.response.TokenResponse;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
 import com.project.tennis.domain.member.member.service.MemberService;
 import com.project.tennis.global.response.RsData;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public RsData<TokenResponse> loginMember(@RequestBody LoginRequest request) {
-        return RsData.from(SUCCESS, memberService.loginMember(request));
+    public RsData<TokenResponse> loginMember(@RequestBody LoginRequest request, HttpServletResponse response) {
+        return RsData.from(SUCCESS, memberService.loginMember(request, response));
     }
 }
