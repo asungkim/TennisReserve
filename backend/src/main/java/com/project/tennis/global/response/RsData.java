@@ -17,6 +17,13 @@ public record RsData<T>(
                 .build();
     }
 
+    public static RsData<?> from(RsCode rsCode, String message) {
+        return RsData.builder()
+                .code(rsCode.getCode())
+                .message(message)
+                .build();
+    }
+
     public static <T> RsData<T> from(RsCode rsCode, T data) {
         return new RsData<>(rsCode.getCode(), rsCode.getMessage(), data);
     }
