@@ -2,7 +2,7 @@ package com.project.tennis.domain.member.member.controller;
 
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
-import com.project.tennis.domain.member.member.dto.response.TokenResponse;
+import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
 import com.project.tennis.domain.member.member.service.MemberService;
 import com.project.tennis.global.response.RsData;
@@ -28,7 +28,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public RsData<TokenResponse> loginMember(@RequestBody LoginRequest request, HttpServletResponse response) {
+    public RsData<AuthTokenResponse> loginMember(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
         return RsData.from(SUCCESS, memberService.loginMember(request, response));
     }
 }

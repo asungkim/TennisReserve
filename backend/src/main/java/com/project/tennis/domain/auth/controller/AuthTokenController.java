@@ -1,7 +1,7 @@
 package com.project.tennis.domain.auth.controller;
 
-import com.project.tennis.domain.auth.service.TokenService;
-import com.project.tennis.domain.member.member.dto.response.TokenResponse;
+import com.project.tennis.domain.auth.service.AuthTokenService;
+import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.global.response.RsData;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +15,15 @@ import static com.project.tennis.global.response.RsCode.CREATED;
 @RestController
 @RequestMapping("/api/tokens")
 @RequiredArgsConstructor
-public class TokenController {
+public class AuthTokenController {
 
-    private final TokenService tokenService;
+    private final AuthTokenService authTokenService;
 
     @PostMapping
-    public RsData<TokenResponse> createToken(
+    public RsData<AuthTokenResponse> createToken(
             @CookieValue(value = "refreshToken") String refreshToken,
             HttpServletResponse response
     ) {
-        return RsData.from(CREATED, tokenService.createAccessToken(refreshToken, response));
+        return RsData.from(CREATED, authTokenService.createAccessToken(refreshToken, response));
     }
 }

@@ -1,7 +1,7 @@
 package com.project.tennis.domain.auth.service;
 
 import com.project.tennis.domain.auth.repository.RefreshTokenRepository;
-import com.project.tennis.domain.member.member.dto.response.TokenResponse;
+import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;
 import com.project.tennis.global.exception.BusinessException;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class TokenService {
+public class AuthTokenService {
 
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
@@ -36,7 +36,7 @@ public class TokenService {
     @Value("${custom.http.secure}")
     private boolean secure;
 
-    public TokenResponse createAccessToken(String refreshToken, HttpServletResponse response) {
+    public AuthTokenResponse createAccessToken(String refreshToken, HttpServletResponse response) {
         // 1. refreshToken이 유효한지 체크
         if (!jwtProvider.isValidToken(refreshToken)) {
             throw new BusinessException(RsCode.UNAUTHENTICATED);
@@ -57,7 +57,7 @@ public class TokenService {
         // 5. 리프레시 토큰 갱신 및 쿠키 재발급
         createRefreshToken(member, response);
 
-        return new TokenResponse(generateAccessToken(member));
+        return new AuthTokenResponse(generateAccessToken(member));
     }
 
     public void createRefreshToken(Member member, HttpServletResponse response) {
@@ -78,7 +78,7 @@ public class TokenService {
         response.setHeader("Set-Cookie", cookie.toString());
     }
 
-    private String generateRefreshToken(Member member) {
+    public String generateRefreshToken(Member member) {
         return jwtProvider.createToken(member.getId(), Duration.ofMinutes(refreshTokenExpirationMinutes), generateClaims(member));
     }
 

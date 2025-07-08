@@ -1,9 +1,9 @@
 package com.project.tennis.domain.member.member.service;
 
-import com.project.tennis.domain.auth.service.TokenService;
+import com.project.tennis.domain.auth.service.AuthTokenService;
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
-import com.project.tennis.domain.member.member.dto.response.TokenResponse;
+import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;
@@ -23,7 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final AuthTokenService authTokenService;
 
     @Value("${custom.member.profile}")
     private String defaultProfile;
@@ -43,7 +43,7 @@ public class MemberService {
         return MemberCreateResponse.toEntity(savedMember);
     }
 
-    public TokenResponse loginMember(LoginRequest request, HttpServletResponse response) {
+    public AuthTokenResponse loginMember(LoginRequest request, HttpServletResponse response) {
         String identifier = request.identifier(); // 아이디 또는 이메일
         String rawPassword = request.password();
 
@@ -60,10 +60,10 @@ public class MemberService {
         }
 
         // 3. 문제없으면 리프레시 및 액세스 토큰 발급 (쿠키도 발급)
-        tokenService.createRefreshToken(member, response);
-        String accessToken = tokenService.generateAccessToken(member);
+        authTokenService.createRefreshToken(member, response);
+        String accessToken = authTokenService.generateAccessToken(member);
 
-        return new TokenResponse(accessToken);
+        return new AuthTokenResponse(accessToken);
     }
 
     private void validateDuplicateMember(MemberCreateRequest request) {
