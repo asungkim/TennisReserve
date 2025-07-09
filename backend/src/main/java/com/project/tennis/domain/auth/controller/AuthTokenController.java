@@ -5,10 +5,8 @@ import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.global.response.RsData;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import static com.project.tennis.global.response.RsCode.CREATED;
 
@@ -20,7 +18,8 @@ public class AuthTokenController {
     private final AuthTokenService authTokenService;
 
     @PostMapping
-    public RsData<AuthTokenResponse> createToken(
+    @ResponseStatus(HttpStatus.CREATED)
+    public RsData<AuthTokenResponse> reissueToken(
             @CookieValue(value = "refreshToken") String refreshToken,
             HttpServletResponse response
     ) {

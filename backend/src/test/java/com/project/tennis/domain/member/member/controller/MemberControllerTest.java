@@ -72,6 +72,7 @@ class MemberControllerTest {
 
 
     @Nested
+    @DisplayName("회원가입 관련 테스트")
     class SignupTest {
         @Test
         @DisplayName("회원가입 성공")
@@ -96,7 +97,7 @@ class MemberControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(request)));
 
-            result.andExpect(status().isOk())
+            result.andExpect(status().isCreated())
                     .andExpect(jsonPath("$.data.email").value(request.email()))
                     .andExpect(jsonPath("$.data.username").value(request.username()))
                     .andExpect(jsonPath("$.data.nickname").value(request.nickname()))
@@ -178,6 +179,7 @@ class MemberControllerTest {
     }
 
     @Nested
+    @DisplayName("로그인 관련 테스트")
     class LoginTest {
 
         @BeforeEach

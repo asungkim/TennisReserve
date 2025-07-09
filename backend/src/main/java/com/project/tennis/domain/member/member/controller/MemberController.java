@@ -9,11 +9,10 @@ import com.project.tennis.global.response.RsData;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import static com.project.tennis.global.response.RsCode.CREATED;
 import static com.project.tennis.global.response.RsCode.SUCCESS;
 
 @RestController
@@ -23,8 +22,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     public RsData<MemberCreateResponse> createMember(@RequestBody @Valid MemberCreateRequest request) {
-        return RsData.from(SUCCESS, memberService.createMember(request));
+        return RsData.from(CREATED, memberService.createMember(request));
     }
 
     @PostMapping("/login")

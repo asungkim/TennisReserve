@@ -6,7 +6,8 @@ public class JwtWhiteListPaths {
 
     public static final List<String> PATHS = List.of(
             "/api/members/login",
-            "/api/members/signup"
+            "/api/members/signup",
+            "/api/tokens"
     );
 
     public static boolean isWhiteListed(String uri, String method) {

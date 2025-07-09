@@ -48,6 +48,7 @@ class MemberServiceTest {
     private AuthTokenService authTokenService;
 
     @Nested
+    @DisplayName("회원가입 관련 테스트")
     class SignupTest {
         @Test
         @DisplayName("회원가입 성공")
@@ -132,6 +133,7 @@ class MemberServiceTest {
     }
 
     @Nested
+    @DisplayName("로그인 관련 테스트")
     class LoginTest {
 
         @Test

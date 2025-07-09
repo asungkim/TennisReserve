@@ -1,5 +1,6 @@
 package com.project.tennis.domain.auth.repository;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ class RefreshTokenRepositoryTest {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Test
+    @DisplayName("Redis Token CRUD 성공")
     void saveAndFindAndDelete() {
         String memberId = "member" + UUID.randomUUID();
         String token = "refreshToken";
