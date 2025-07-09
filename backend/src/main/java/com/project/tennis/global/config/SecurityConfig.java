@@ -1,5 +1,9 @@
 package com.project.tennis.global.config;
 
+import com.project.tennis.global.exception.jwt.JwtAccessDeniedHandler;
+import com.project.tennis.global.exception.jwt.JwtAuthenticationEntryPoint;
+import com.project.tennis.global.util.jwt.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,16 +13,27 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .headers(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable) // CORS 비활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
                 .rememberMe(AbstractHttpConfigurer::disable) // 로그인 기억 기능 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable) // HTTP Basic 인증 비활성화
@@ -29,7 +44,27 @@ public class SecurityConfig {
                         .anyRequest().permitAll()) // 그 외는 jwt 필터로 인증 검증
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // STATELESS 방식
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // jwt 필터 추가
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // 인증 실패 시 수행할 작업 설정
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.accessDeniedHandler(jwtAccessDeniedHandler)) // 인가 실패 시 수행할 작업 설정
                 .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*")); // 모든 도메인에서의 요청 허용
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 사용
+        configuration.setAllowCredentials(true); // 헤더에 인증정보 포함 허용
+        configuration.setExposedHeaders(List.of("Authorization", "EntryAuth")); // 브라우저가 지정한 헤더를 읽을 수 있음
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 모든 엔드포인트에 대해 CORS 설정 적용
+
+        return source;
     }
 
     @Bean
