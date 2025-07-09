@@ -12,6 +12,9 @@ import com.project.tennis.domain.member.member.repository.MemberRepository;
 import com.project.tennis.domain.member.member.service.MemberService;
 import com.project.tennis.global.config.JpaAuditingConfig;
 import com.project.tennis.global.config.SecurityConfig;
+import com.project.tennis.global.exception.jwt.JwtAccessDeniedHandler;
+import com.project.tennis.global.exception.jwt.JwtAuthenticationEntryPoint;
+import com.project.tennis.global.util.jwt.JwtProvider;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -57,6 +60,16 @@ class MemberControllerTest {
 
     @MockitoBean
     private MemberRepository memberRepository;
+
+    @MockitoBean
+    private JwtProvider jwtProvider;
+
+    @MockitoBean
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @MockitoBean
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
 
     @Nested
     class SignupTest {

@@ -24,6 +24,6 @@ public class AuthTokenController {
             @CookieValue(value = "refreshToken") String refreshToken,
             HttpServletResponse response
     ) {
-        return RsData.from(CREATED, authTokenService.createAccessToken(refreshToken, response));
+        return RsData.from(CREATED, authTokenService.reissueAccessToken(refreshToken, response));
     }
 }

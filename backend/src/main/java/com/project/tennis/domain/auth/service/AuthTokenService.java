@@ -36,7 +36,7 @@ public class AuthTokenService {
     @Value("${custom.http.secure}")
     private boolean secure;
 
-    public AuthTokenResponse createAccessToken(String refreshToken, HttpServletResponse response) {
+    public AuthTokenResponse reissueAccessToken(String refreshToken, HttpServletResponse response) {
         // 1. refreshToken이 유효한지 체크
         if (!jwtProvider.isValidToken(refreshToken)) {
             throw new BusinessException(RsCode.UNAUTHENTICATED);
