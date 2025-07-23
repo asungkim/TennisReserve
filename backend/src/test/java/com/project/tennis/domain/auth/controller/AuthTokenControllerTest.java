@@ -62,7 +62,7 @@ public class AuthTokenControllerTest {
                 .willReturn(responseDto);
 
         // when & then
-        mvc.perform(post("/api/tokens")
+        mvc.perform(post("/api/tokens/refresh")
                         .cookie(new Cookie("refreshToken", refreshToken)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.accessToken").value(newAccessToken));
