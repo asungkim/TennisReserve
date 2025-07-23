@@ -1,5 +1,6 @@
 package com.project.tennis.domain.auth.repository;
 
+import com.project.tennis.domain.auth.token.repository.RefreshTokenRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

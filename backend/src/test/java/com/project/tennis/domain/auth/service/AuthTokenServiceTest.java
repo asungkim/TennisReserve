@@ -1,6 +1,7 @@
 package com.project.tennis.domain.auth.service;
 
-import com.project.tennis.domain.auth.repository.RefreshTokenRepository;
+import com.project.tennis.domain.auth.token.repository.RefreshTokenRepository;
+import com.project.tennis.domain.auth.token.service.AuthTokenService;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.entity.enums.Role;

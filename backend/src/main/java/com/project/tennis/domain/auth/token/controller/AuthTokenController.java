@@ -1,6 +1,6 @@
-package com.project.tennis.domain.auth.controller;
+package com.project.tennis.domain.auth.token.controller;
 
-import com.project.tennis.domain.auth.service.AuthTokenService;
+import com.project.tennis.domain.auth.token.service.AuthTokenService;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.global.response.RsData;
 import jakarta.servlet.http.HttpServletResponse;

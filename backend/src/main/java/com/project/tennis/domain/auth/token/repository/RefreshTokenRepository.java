@@ -1,4 +1,4 @@
-package com.project.tennis.domain.auth.repository;
+package com.project.tennis.domain.auth.token.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

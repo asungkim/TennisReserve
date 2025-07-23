@@ -1,6 +1,6 @@
-package com.project.tennis.domain.auth.service;
+package com.project.tennis.domain.auth.token.service;
 
-import com.project.tennis.domain.auth.repository.RefreshTokenRepository;
+import com.project.tennis.domain.auth.token.repository.RefreshTokenRepository;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.domain.member.member.entity.Member;
 import com.project.tennis.domain.member.member.repository.MemberRepository;

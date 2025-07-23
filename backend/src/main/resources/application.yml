@@ -35,6 +35,8 @@ custom:
   member:
     profile: "https://url.kr/estdgi"
 
+  apikey: ${API_KEY}
+
   jwt:
     issuer: ${JWT_ISSUER}
     secret_key: ${JWT_SECRET_KEY}

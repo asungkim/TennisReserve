@@ -1,7 +1,8 @@
 package com.project.tennis.domain.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.tennis.domain.auth.service.AuthTokenService;
+import com.project.tennis.domain.auth.token.controller.AuthTokenController;
+import com.project.tennis.domain.auth.token.service.AuthTokenService;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
 import com.project.tennis.global.config.SecurityConfig;
 import com.project.tennis.global.exception.jwt.JwtAccessDeniedHandler;

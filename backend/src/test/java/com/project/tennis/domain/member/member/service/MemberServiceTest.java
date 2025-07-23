@@ -1,6 +1,6 @@
 package com.project.tennis.domain.member.member.service;
 
-import com.project.tennis.domain.auth.service.AuthTokenService;
+import com.project.tennis.domain.auth.token.service.AuthTokenService;
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
 import com.project.tennis.domain.member.member.dto.response.MemberCreateResponse;
