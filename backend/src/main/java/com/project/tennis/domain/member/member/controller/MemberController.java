@@ -1,5 +1,6 @@
 package com.project.tennis.domain.member.member.controller;
 
+import com.project.tennis.domain.member.member.dto.MemberPrincipal;
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static com.project.tennis.global.response.RsCode.CREATED;
@@ -30,5 +32,14 @@ public class MemberController {
     @PostMapping("/login")
     public RsData<AuthTokenResponse> loginMember(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
         return RsData.from(SUCCESS, memberService.loginMember(request, response));
+    }
+
+    @PostMapping("/logout")
+    public RsData<?> logoutMember(
+            @AuthenticationPrincipal MemberPrincipal principal,
+            HttpServletResponse response
+    ) {
+        memberService.logoutMember(response, principal.memberId());
+        return RsData.from(SUCCESS);
     }
 }

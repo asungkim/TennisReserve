@@ -17,7 +17,7 @@ public class AuthTokenController {
 
     private final AuthTokenService authTokenService;
 
-    @PostMapping
+    @PostMapping("/refresh")
     @ResponseStatus(HttpStatus.CREATED)
     public RsData<AuthTokenResponse> reissueToken(
             @CookieValue(value = "refreshToken") String refreshToken,

@@ -66,6 +66,10 @@ public class MemberService {
         return new AuthTokenResponse(accessToken);
     }
 
+    public void logoutMember(HttpServletResponse response, String memberId) {
+        authTokenService.removeRefreshToken(memberId,response);
+    }
+
     private void validateDuplicateMember(MemberCreateRequest request) {
         if (memberRepository.existsByUsername(request.username())) {
             throw new BusinessException(RsCode.DUPLICATE_USERNAME);
@@ -83,4 +87,6 @@ public class MemberService {
     private boolean isEmail(String identifier) {
         return identifier.contains("@"); // 또는 정규식 검증
     }
+
+
 }

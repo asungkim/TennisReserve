@@ -93,4 +93,21 @@ public class AuthTokenService {
 
         return claims;
     }
+
+    public void removeRefreshToken(String memberId, HttpServletResponse response) {
+        refreshTokenRepository.deleteByMemberId(memberId);
+        removeRefreshTokenCookie(response);
+    }
+
+    private void removeRefreshTokenCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(secure)
+                .path("/")
+                .sameSite("None")
+                .maxAge(0)
+                .build();
+
+        response.setHeader("Set-Cookie", cookie.toString());
+    }
 }
