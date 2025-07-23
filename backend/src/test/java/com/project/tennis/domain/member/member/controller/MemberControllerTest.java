@@ -1,6 +1,7 @@
 package com.project.tennis.domain.member.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.tennis.domain.member.member.dto.MemberPrincipal;
 import com.project.tennis.domain.member.member.dto.request.LoginRequest;
 import com.project.tennis.domain.member.member.dto.request.MemberCreateRequest;
 import com.project.tennis.domain.member.member.dto.response.AuthTokenResponse;
@@ -23,6 +24,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,6 +37,7 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -241,5 +245,25 @@ class MemberControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("로그아웃 관련 테스트")
+    class LogoutTest {
 
+        @Test
+        @DisplayName("로그아웃 성공")
+        void logout_success() throws Exception {
+            // given
+            String memberId = UUID.randomUUID().toString();
+
+            // 로그인 설정
+            MemberPrincipal principal = new MemberPrincipal(memberId);
+            TestingAuthenticationToken auth = new TestingAuthenticationToken(principal, null);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            // when & then
+            mvc.perform(post("/api/members/logout")
+                            .with(authentication(auth)))
+                    .andExpect(status().isOk());
+        }
+    }
 }

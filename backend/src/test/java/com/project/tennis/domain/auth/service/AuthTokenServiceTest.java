@@ -172,4 +172,22 @@ class AuthTokenServiceTest {
         String cookieValue = response.getHeader("Set-Cookie");
         assertThat(cookieValue).contains("refreshToken=" + mockRefreshToken);
     }
+
+    @Test
+    @DisplayName("리프레시 토큰 제거 성공")
+    void delete_refreshToken_success() {
+        // given
+        String memberId = UUID.randomUUID().toString();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        // when
+        authTokenService.removeRefreshToken(memberId, response);
+
+        // then
+        verify(refreshTokenRepository).deleteByMemberId(eq(memberId));
+        String cookieValue = response.getHeader("Set-Cookie");
+        assertThat(cookieValue).contains("refreshToken=");
+        assertThat(cookieValue).contains("Max-Age=0");
+
+    }
 }
