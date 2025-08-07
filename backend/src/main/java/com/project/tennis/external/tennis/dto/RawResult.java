@@ -1,4 +1,4 @@
-package com.project.tennis.domain.tennis.external.dto;
+package com.project.tennis.external.tennis.dto;
 
 public record RawResult(
         String CODE,

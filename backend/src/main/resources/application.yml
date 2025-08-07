@@ -35,7 +35,11 @@ custom:
   member:
     profile: "https://url.kr/estdgi"
 
-  apikey: ${API_KEY}
+  kakao:
+    apiKey: ${KAKAO_API_KEY}
+
+  nuri:
+    apikey: ${NURI_API_KEY}
 
   jwt:
     issuer: ${JWT_ISSUER}

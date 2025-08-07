@@ -1,6 +1,7 @@
 package com.project.tennis.domain.tennis.external;
 
-import com.project.tennis.domain.tennis.external.dto.RawTennisApiResponse;
+import com.project.tennis.external.tennis.client.TennisApiClient;
+import com.project.tennis.external.tennis.dto.RawTennisApiResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,24 +1,20 @@
-package com.project.tennis.domain.tennis.external;
+package com.project.tennis.external.tennis.client;
 
-import com.project.tennis.domain.tennis.external.dto.RawTennisApiResponse;
+import com.project.tennis.external.global.client.ApiClient;
+import com.project.tennis.external.tennis.dto.RawTennisApiResponse;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriBuilder;
 
 @Component
-public class TennisApiClient {
-
-    private final RestClient restClient;
+public class TennisApiClient extends ApiClient {
 
     @Value("${custom.apikey}")
     private String apiKey;
 
     public TennisApiClient() {
-        this.restClient = RestClient.builder()
-                .baseUrl("http://openAPI.seoul.go.kr:8088")
-                .build();
+        super("http://openAPI.seoul.go.kr:8088");
     }
 
     public RawTennisApiResponse fetchCourtList(
