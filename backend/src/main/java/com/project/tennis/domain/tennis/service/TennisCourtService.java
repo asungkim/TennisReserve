@@ -61,7 +61,7 @@ public class TennisCourtService {
             courtLocationRepository.save(courtLocation);
 
             // 2. TennisCourt 저장
-            String tennisCourtName = makeNameByData(court.SVCNM(), court.PLACENM());
+            String tennisCourtName = makeNameByData(court.PLACENM());
             TennisCourt tennisCourt = TennisCourt.builder()
                     .name(tennisCourtName)
                     .imageUrl(court.IMGURL())
@@ -79,7 +79,18 @@ public class TennisCourtService {
         return list;
     }
 
-    private String makeNameByData(String svcNm, String placeNm) {
-        return "";
+    private String makeNameByData(String placeNm) {
+        boolean isPlaceNameInvalid = placeNm.matches(".*[>/\\\\].*");
+
+        // PLACENM이 유효하면 그대로 사용
+        if (!isPlaceNameInvalid) {
+            if (placeNm.contains("테니스장")) {
+                return placeNm.trim();
+            } else {
+                return placeNm.trim() + " 테니스장";
+            }
+        }
+
+        return null;
     }
 }
