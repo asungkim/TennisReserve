@@ -1,6 +1,5 @@
 package com.project.tennis.external.tennis.service;
 
-import com.project.tennis.domain.tennis.repository.TennisCourtRepository;
 import com.project.tennis.external.tennis.client.TennisApiClient;
 import com.project.tennis.external.tennis.dto.RawCourt;
 import com.project.tennis.external.tennis.dto.RawResult;
@@ -17,7 +16,6 @@ import java.util.List;
 public class TennisApiService {
 
     private final TennisApiClient apiClient;
-    private final TennisCourtRepository tennisCourtRepository;
 
     public List<RawCourt> fetchCourtList() {
         RawTennisApiResponse rawResponse = apiClient.fetchCourtList("json", "ListPublicReservationSport", 1, 1000, "테니스장");

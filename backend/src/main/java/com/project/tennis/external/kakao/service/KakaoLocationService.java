@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class KakaoLocationService {
 
-    private KakaoApiClient apiClient;
+    private final KakaoApiClient apiClient;
 
     public Document saveCourtLocation(Double x, Double y) {
         KakaoAddressResponse response = apiClient.getAddressByXY(x, y);

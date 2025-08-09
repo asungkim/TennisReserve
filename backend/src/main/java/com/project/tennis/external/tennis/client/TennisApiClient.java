@@ -10,7 +10,7 @@ import org.springframework.web.util.UriBuilder;
 @Component
 public class TennisApiClient extends ApiClient {
 
-    @Value("${custom.apikey}")
+    @Value("${custom.nuri.apikey}")
     private String apiKey;
 
     public TennisApiClient() {
