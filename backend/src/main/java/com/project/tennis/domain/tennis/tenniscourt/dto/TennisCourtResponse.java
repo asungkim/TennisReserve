@@ -18,7 +18,7 @@ public record TennisCourtResponse(
                 .name(tennisCourt.getName())
                 .imageUrl(tennisCourt.getImageUrl())
                 .phoneNumber(tennisCourt.getPhoneNumber())
-                .courtLocation(tennisCourt.getTennisCourtLocation())
+                .tennisCourtLocation(tennisCourt.getTennisCourtLocation())
                 .build();
     }
 }

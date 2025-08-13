@@ -30,6 +30,6 @@ public class TennisCourtLocation {
 
     private Double y;
 
-    @OneToOne(mappedBy = "courtLocation")
+    @OneToOne(mappedBy = "tennisCourtLocation")
     private TennisCourt court;
 }
