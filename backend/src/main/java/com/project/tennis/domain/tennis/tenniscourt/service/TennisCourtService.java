@@ -1,10 +1,10 @@
-package com.project.tennis.domain.tennis.service;
+package com.project.tennis.domain.tennis.tenniscourt.service;
 
-import com.project.tennis.domain.tennis.court.dto.TennisCourtResponse;
-import com.project.tennis.domain.tennis.court.entity.CourtLocation;
-import com.project.tennis.domain.tennis.court.entity.TennisCourt;
-import com.project.tennis.domain.tennis.repository.CourtLocationRepository;
-import com.project.tennis.domain.tennis.repository.TennisCourtRepository;
+import com.project.tennis.domain.tennis.tenniscourt.dto.TennisCourtResponse;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
+import com.project.tennis.domain.tennis.tenniscourt.repository.CourtLocationRepository;
+import com.project.tennis.domain.tennis.tenniscourt.repository.TennisCourtRepository;
 import com.project.tennis.external.kakao.dto.Address;
 import com.project.tennis.external.kakao.dto.Document;
 import com.project.tennis.external.kakao.dto.RoadAddress;
@@ -49,7 +49,7 @@ public class TennisCourtService {
         Coordinate coordinate = opCoordinate.get();
 
         // 2. x,y를 정보를 통해 이미 저장되어있으면 재사용, 없으면 저장
-        CourtLocation courtLocation = courtLocationRepository.findByXAndY(coordinate.x(), coordinate.y()).orElseGet(() -> makeCourtLocation(coordinate));
+        TennisCourtLocation tennisCourtLocation = courtLocationRepository.findByXAndY(coordinate.x(), coordinate.y()).orElseGet(() -> makeCourtLocation(coordinate));
 
         // 3. 테니스 코트 이름 생성 및 중복 검사
         Optional<String> opCourtName = makeCourtName(raw.PLACENM());
@@ -67,14 +67,14 @@ public class TennisCourtService {
                 .name(tennisCourtName)
                 .imageUrl(raw.IMGURL())
                 .phoneNumber(raw.TELNO())
-                .courtLocation(courtLocation)
+                .tennisCourtLocation(tennisCourtLocation)
                 .build();
 
         TennisCourt savedTennisCourt = tennisCourtRepository.save(court);
         return Optional.of(TennisCourtResponse.from(savedTennisCourt));
     }
 
-    private CourtLocation makeCourtLocation(Coordinate coordinate) {
+    private TennisCourtLocation makeCourtLocation(Coordinate coordinate) {
         Double x = coordinate.x();
         Double y = coordinate.y();
 
@@ -93,7 +93,7 @@ public class TennisCourtService {
         String region2 = address != null ? address.region2depthName() : null;
         String region3 = address != null ? address.region3depthName() : null;
 
-        CourtLocation courtLocation = CourtLocation.builder()
+        TennisCourtLocation tennisCourtLocation = TennisCourtLocation.builder()
                 .fullAddress(fullAddress)
                 .roadAddress(recentAddress)
                 .region_one_depth(region1)
@@ -103,7 +103,7 @@ public class TennisCourtService {
                 .y(y)
                 .build();
 
-        return courtLocationRepository.save(courtLocation);
+        return courtLocationRepository.save(tennisCourtLocation);
     }
 
     private record Coordinate(Double x, Double y) {

@@ -1,6 +1,6 @@
 package com.project.tennis.global.init;
 
-import com.project.tennis.domain.tennis.service.TennisCourtService;
+import com.project.tennis.domain.tennis.tenniscourt.service.TennisCourtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

@@ -1,4 +1,4 @@
-package com.project.tennis.domain.tennis.court.entity;
+package com.project.tennis.domain.tennis.tenniscourt.entity;
 
 import com.project.tennis.domain.base.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -23,5 +23,5 @@ public class TennisCourt extends BaseTimeEntity {
     private String phoneNumber;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private CourtLocation courtLocation;
+    private TennisCourtLocation tennisCourtLocation;
 }

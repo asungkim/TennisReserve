@@ -1,4 +1,4 @@
-package com.project.tennis.domain.tennis.court.entity;
+package com.project.tennis.domain.tennis.tenniscourt.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class CourtLocation {
+public class TennisCourtLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

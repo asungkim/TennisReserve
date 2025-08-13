@@ -1,9 +1,8 @@
-package com.project.tennis.domain.tennis.repository;
+package com.project.tennis.domain.tennis.tenniscourt.repository;
 
-import com.project.tennis.domain.tennis.court.entity.TennisCourt;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface TennisCourtRepository extends JpaRepository<TennisCourt, Long> {

@@ -1,7 +1,7 @@
-package com.project.tennis.domain.tennis.court.dto;
+package com.project.tennis.domain.tennis.tenniscourt.dto;
 
-import com.project.tennis.domain.tennis.court.entity.CourtLocation;
-import com.project.tennis.domain.tennis.court.entity.TennisCourt;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
 import lombok.Builder;
 
 @Builder
@@ -10,7 +10,7 @@ public record TennisCourtResponse(
         String name,
         String imageUrl,
         String phoneNumber,
-        CourtLocation courtLocation
+        TennisCourtLocation tennisCourtLocation
 ) {
     public static TennisCourtResponse from(TennisCourt tennisCourt) {
         return TennisCourtResponse.builder()
@@ -18,7 +18,7 @@ public record TennisCourtResponse(
                 .name(tennisCourt.getName())
                 .imageUrl(tennisCourt.getImageUrl())
                 .phoneNumber(tennisCourt.getPhoneNumber())
-                .courtLocation(tennisCourt.getCourtLocation())
+                .courtLocation(tennisCourt.getTennisCourtLocation())
                 .build();
     }
 }

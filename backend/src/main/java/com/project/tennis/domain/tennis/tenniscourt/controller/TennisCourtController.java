@@ -1,4 +1,4 @@
-package com.project.tennis.domain.tennis.controller;
+package com.project.tennis.domain.tennis.tenniscourt.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
