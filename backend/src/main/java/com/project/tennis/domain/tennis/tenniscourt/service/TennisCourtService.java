@@ -1,8 +1,9 @@
 package com.project.tennis.domain.tennis.tenniscourt.service;
 
-import com.project.tennis.domain.tennis.tenniscourt.dto.TennisCourtResponse;
-import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
+import com.project.tennis.domain.tennis.tenniscourt.dto.request.TennisCourtCreateRequest;
+import com.project.tennis.domain.tennis.tenniscourt.dto.response.TennisCourtResponse;
 import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
 import com.project.tennis.domain.tennis.tenniscourt.repository.CourtLocationRepository;
 import com.project.tennis.domain.tennis.tenniscourt.repository.TennisCourtRepository;
 import com.project.tennis.external.kakao.dto.Address;
@@ -11,6 +12,8 @@ import com.project.tennis.external.kakao.dto.RoadAddress;
 import com.project.tennis.external.kakao.service.KakaoLocationService;
 import com.project.tennis.external.tennis.dto.RawCourt;
 import com.project.tennis.external.tennis.service.TennisApiService;
+import com.project.tennis.global.exception.BusinessException;
+import com.project.tennis.global.response.RsCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,28 @@ public class TennisCourtService {
         }
 
         return result;
+    }
+
+    public TennisCourtResponse createTennisCourt(TennisCourtCreateRequest tennisCourtCreateRequest) {
+        validateTennisCourtName(tennisCourtCreateRequest.name());
+
+        TennisCourt tennisCourt = TennisCourt.builder()
+                .name(tennisCourtCreateRequest.name())
+                .imageUrl(tennisCourtCreateRequest.imageUrl())
+                .phoneNumber(tennisCourtCreateRequest.phoneNumber())
+                .build();
+
+        tennisCourtRepository.save(tennisCourt);
+
+        return TennisCourtResponse.from(tennisCourt);
+    }
+
+    private void validateTennisCourtName(String name) {
+        boolean isExist = tennisCourtRepository.existsByName(name);
+
+        if (isExist) {
+            throw new BusinessException(RsCode.CONFLICT);
+        }
     }
 
     private Optional<TennisCourtResponse> saveOne(RawCourt raw) {

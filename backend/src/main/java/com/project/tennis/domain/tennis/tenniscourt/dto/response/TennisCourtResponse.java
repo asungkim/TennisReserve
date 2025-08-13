@@ -1,4 +1,4 @@
-package com.project.tennis.domain.tennis.tenniscourt.dto;
+package com.project.tennis.domain.tennis.tenniscourt.dto.response;
 
 import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
 import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;

@@ -15,6 +15,7 @@ public enum RsCode {
     BAD_REQUEST(RsConstant.BAD_REQUEST, "잘못된 요청입니다."),
     INTERNAL_SERVER(RsConstant.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
     UNAUTHENTICATED(RsConstant.UNAUTHORIZED, "인증이 실패했습니다."),
+    CONFLICT(RsConstant.CONFLICT, "리소스의 충돌이 있습니다"),
     UNAUTHORIZED(RsConstant.FORBIDDEN, "접근 권한이 없습니다."),
     TOO_MANY_REQUESTS(RsConstant.TOO_MANY_REQUESTS, "너무 많은 요청입니다."),
 
