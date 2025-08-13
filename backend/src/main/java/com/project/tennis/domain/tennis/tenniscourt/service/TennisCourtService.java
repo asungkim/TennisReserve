@@ -1,6 +1,6 @@
 package com.project.tennis.domain.tennis.tenniscourt.service;
 
-import com.project.tennis.domain.tennis.tenniscourt.dto.request.TennisCourtCreateRequest;
+import com.project.tennis.domain.tennis.tenniscourt.dto.request.TennisCourtRequest;
 import com.project.tennis.domain.tennis.tenniscourt.dto.response.TennisCourtResponse;
 import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
 import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourtLocation;
@@ -43,18 +43,47 @@ public class TennisCourtService {
         return result;
     }
 
-    public TennisCourtResponse createTennisCourt(TennisCourtCreateRequest tennisCourtCreateRequest) {
-        validateTennisCourtName(tennisCourtCreateRequest.name());
+    public TennisCourtResponse createTennisCourt(TennisCourtRequest tennisCourtRequest) {
+
+        validateTennisCourtName(tennisCourtRequest.name());
 
         TennisCourt tennisCourt = TennisCourt.builder()
-                .name(tennisCourtCreateRequest.name())
-                .imageUrl(tennisCourtCreateRequest.imageUrl())
-                .phoneNumber(tennisCourtCreateRequest.phoneNumber())
+                .name(tennisCourtRequest.name())
+                .imageUrl(tennisCourtRequest.imageUrl())
+                .phoneNumber(tennisCourtRequest.phoneNumber())
                 .build();
 
         tennisCourtRepository.save(tennisCourt);
 
         return TennisCourtResponse.from(tennisCourt);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TennisCourtResponse> getTennisCourts() {
+        return tennisCourtRepository.findAll()
+                .stream()
+                .map(TennisCourtResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public TennisCourtResponse getTennisCourt(Long id) {
+        return TennisCourtResponse.from(findById(id));
+    }
+
+    public TennisCourtResponse modifyTennisCourt(TennisCourtRequest request, Long id) {
+        TennisCourt tennisCourt = findById(id);
+        tennisCourt.update(request.name(), request.imageUrl(), request.phoneNumber());
+        return TennisCourtResponse.from(tennisCourt);
+    }
+
+    public void deleteTennisCourt(Long id) {
+        tennisCourtRepository.delete(findById(id));
+    }
+
+    private TennisCourt findById(Long id) {
+        return tennisCourtRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(RsCode.NOT_FOUND));
     }
 
     private void validateTennisCourtName(String name) {

@@ -2,7 +2,7 @@ package com.project.tennis.domain.tennis.tenniscourt.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record TennisCourtCreateRequest(
+public record TennisCourtRequest(
         @NotBlank(message = "테니스장 이름은 필수 입력값입니다.")
         String name,
 

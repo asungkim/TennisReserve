@@ -37,4 +37,10 @@ public class TennisCourt extends BaseTimeEntity {
     @OneToMany(mappedBy = "tennisCourt", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Member> managers = new ArrayList<>();
+
+    public void update(String name, String imageUrl, String phoneNumber) {
+        if (name != null) this.name = name;
+        if (imageUrl != null) this.imageUrl = imageUrl;
+        if (phoneNumber != null) this.phoneNumber = phoneNumber;
+    }
 }
