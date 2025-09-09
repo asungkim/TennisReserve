@@ -90,7 +90,7 @@ public class TennisCourtService {
         boolean isExist = tennisCourtRepository.existsByName(name);
 
         if (isExist) {
-            throw new BusinessException(RsCode.CONFLICT);
+            throw new BusinessException(RsCode.DUPLICATE_TENNIS_COURT_NAME);
         }
     }
 

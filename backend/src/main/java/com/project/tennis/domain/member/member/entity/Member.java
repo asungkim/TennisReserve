@@ -3,6 +3,7 @@ package com.project.tennis.domain.member.member.entity;
 import com.project.tennis.domain.base.BaseTimeEntity;
 import com.project.tennis.domain.member.member.entity.enums.Role;
 import com.project.tennis.domain.member.member.entity.enums.SocialProvider;
+import com.project.tennis.domain.tennis.tenniscourt.entity.TennisCourt;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,5 +39,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SocialProvider provider;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TennisCourt tennisCourt;
 
 }
